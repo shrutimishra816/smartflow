@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import auth, users, logs, predictions, watch
 from app.db.database import engine, Base
 from app.core.config import settings
+import os
+
+PORT = int(os.environ.get("PORT", 10000))
 
 # Create tables
 Base.metadata.create_all(bind=engine)
