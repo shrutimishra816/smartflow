@@ -1,0 +1,40 @@
+services:
+  # ── Backend: FastAPI ──────────────────────────────────────
+  - type: web
+    name: smartflow-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smartflow-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ML_MODELS_PATH
+        value: ./ml_models
+      - key: DEBUG
+        value: false
+
+  # ── Frontend: React (Static Site) ────────────────────────
+  - type: web
+    name: smartflow-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://smartflow-backend.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html   # SPA fallback for React Router
+
+# ── Database: PostgreSQL ──────────────────────────────────
+databases:
+  - name: smartflow-db
+    plan: free
+    databaseName: smartflow_tracker

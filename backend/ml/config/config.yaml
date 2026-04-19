@@ -1,0 +1,58 @@
+data:
+  raw_path: "data/raw/menstrual_phase_dataset_10k.csv"
+  processed_path: "data/processed/"
+  test_size: 0.2
+  random_state: 42
+
+features:
+  numerical:
+    - cycle_day
+    - estrogen_e2_pg_ml
+    - progesterone_ng_ml
+    - lh_miu_ml
+    - fsh_miu_ml
+    - testosterone_ng_dl
+    - prolactin_ng_ml
+    - bbt_celsius
+    - cervical_mucus_score
+    - cramping_0_10
+    - breast_tenderness_0_10
+    - mood_score_1_10
+    - energy_level_1_10
+    - libido_1_10
+  categorical:
+    - cervical_mucus_label
+  target: phase_label
+  drop:
+    - sample_id
+
+models:
+  phase_classifier:
+    type: "random_forest"
+    params:
+      n_estimators: 200
+      max_depth: 10
+      random_state: 42
+  cycle_predictor:
+    type: "xgboost"
+    params:
+      n_estimators: 100
+      max_depth: 6
+      learning_rate: 0.1
+      random_state: 42
+
+outputs:
+  models_path: "outputs/models/"
+  plots_path: "outputs/plots/"
+  reports_path: "outputs/reports/"
+
+phases:
+  - Menstrual
+  - Follicular
+  - Ovulation
+  - Luteal
+
+fertility_window:
+  fertile_phases:
+    - Ovulation
+    - Follicular

@@ -1,65 +1,120 @@
-# 🌸 SmartFlow — Backend
+# 🌸 SmartFlow — SmartFlow
 
-FastAPI backend with JWT auth, PostgreSQL, and ML model inference.
+A full-stack web app for menstrual cycle tracking with ML-powered phase prediction, fertility window detection, and anomaly alerts.
 
-## API Endpoints
+---
 
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login, get JWT token |
+## Project Structure
 
-### Users
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/users/me` | Get current user profile |
+```
+smartflow-app/
+├── backend/        FastAPI backend (Python) — auth, API, ML inference
+├── frontend/       React frontend — dashboard, logging, history
+├── ml/             ML pipeline — train models on your dataset
+└── render.yaml     One-click Render deployment config
+```
 
-### Symptom Logs
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/logs/` | Log symptoms + get prediction |
-| GET | `/api/logs/` | Get all my logs |
-| GET | `/api/logs/{id}` | Get specific log |
-| DELETE | `/api/logs/{id}` | Delete a log |
+---
 
-### Predictions
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/predictions/predict` | One-off prediction |
-| GET | `/api/predictions/summary` | Cycle summary stats |
-| GET | `/api/predictions/history` | History for charts |
+## ⚡ Quick Start (Local)
 
-## Local Setup
+### Step 1 — Train the ML Models
+
+```bash
+cd ml
+
+# Create & activate venv
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+source .venv/bin/activate       # Mac/Linux
+
+pip install -r requirements.txt
+pip install pyyaml
+
+python main.py
+# Models saved to ml/outputs/models/
+```
+
+---
+
+### Step 2 — Run the Backend
 
 ```bash
 cd backend
 
-# Create and activate venv
+# Create & activate venv
 python -m venv .venv
-.venv\Scripts\activate        # Windows
-source .venv/bin/activate     # Mac/Linux
+.venv\Scripts\activate          # Windows
+source .venv/bin/activate       # Mac/Linux
 
-# Install dependencies
 pip install -r requirements.txt
 
 # Set up environment
-copy .env.example .env        # Windows
-cp .env.example .env          # Mac/Linux
+copy .env.example .env          # Windows
+cp .env.example .env            # Mac/Linux
 
-# Run the server
+# Edit .env — set ML_MODELS_PATH=../ml/outputs/models
+
 uvicorn app.main:app --reload --port 8000
 ```
 
-Visit: http://localhost:8000/docs for interactive API docs (Swagger UI)
+API docs available at: http://localhost:8000/docs
 
-## Train ML Models First
+---
 
-Before running the backend with ML predictions:
+### Step 3 — Run the Frontend
 
 ```bash
-cd ../
-python main.py   # trains and saves models to ml/outputs/models/
+cd frontend
+
+npm install
+
+copy .env.example .env          # Windows
+cp .env.example .env            # Mac/Linux
+
+# .env should contain: VITE_API_URL=http://localhost:8000/api
+
+npm run dev
 ```
 
-If models aren't found, the backend falls back to rule-based phase prediction automatically.
+Open: http://localhost:3000 🌸
+
+---
+
+## 🚀 Deploy to Render
+
+1. Push this entire folder to a GitHub repository
+2. Go to [render.com](https://render.com) → New → **Blueprint**
+3. Connect your GitHub repo
+4. Render reads `render.yaml` and auto-creates:
+   - `smartflow-backend` — FastAPI web service
+   - `smartflow-frontend` — React static site
+   - `smartflow-db` — PostgreSQL database (free tier)
+5. Done! Your app is live.
+
+> **Important:** After deploy, update `ALLOWED_ORIGINS` in `backend/app/core/config.py` with your actual Render frontend URL.
+
+---
+
+## Tech Stack
+
+| Layer      | Technology                        |
+|------------|-----------------------------------|
+| Frontend   | React 18, Vite, Tailwind CSS      |
+| Backend    | FastAPI, SQLAlchemy, JWT Auth     |
+| Database   | PostgreSQL (prod) / SQLite (dev)  |
+| ML Models  | scikit-learn, XGBoost, SHAP       |
+| Deployment | Render                            |
+
+---
+
+## Features
+
+- ✅ User signup / login with JWT
+- ✅ Daily symptom logging (BBT, mucus, mood, energy, cramping)
+- ✅ ML phase prediction (Menstrual / Follicular / Ovulation / Luteal)
+- ✅ Fertility window detection
+- ✅ Anomaly detection with alerts
+- ✅ Personal dashboard with charts
+- ✅ Log history with delete
+- ✅ Mobile-friendly UI

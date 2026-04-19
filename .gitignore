@@ -1,1 +1,4 @@
-backend.zip
+backend/.venv
+__pylance__/
+*.pyc
+.env
