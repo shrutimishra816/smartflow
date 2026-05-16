@@ -1,1 +1,19 @@
-backend.zip
+# Inherited from root .gitignore
+# Backend-specific additions
+
+# Virtual env
+.venv/
+venv/
+
+# Secrets
+.env
+!.env.example
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+*.db
+*.sqlite3

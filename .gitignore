@@ -1,4 +1,39 @@
-backend/.venv
-__pylance__/
-*.pyc
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+dist/
+.next/
+
+# Environment variables (NEVER commit secrets)
 .env
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build artifacts
+*.zip
+*.7z
+
+# ML outputs (large binary files)
+ml/outputs/models/*.pkl
