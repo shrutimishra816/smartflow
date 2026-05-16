@@ -25,7 +25,8 @@ class Settings(BaseSettings):
     "http://localhost:5173",       # default Vite dev server
     "http://127.0.0.1:3000",       # localhost with IP for React
     "http://127.0.0.1:5173",       # localhost with IP for Vite
-    "https://smartflow-frontend.onrender.com"  # deployed frontend URL
+    "https://smartflow-frontend-f55i.onrender.com"  # deployed frontend URL
+    "https://smartflow-backend-5fnf.onrender.com"  # deployed backend URL
 ]
 
     # ML Models path
